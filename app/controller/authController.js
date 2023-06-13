@@ -9,6 +9,25 @@ import User from "../model/user.js";
 import bcryptUtils from "../utils/bcrypt.js";
 import registerValidator from "../utils/registerValidator.js";
 import loginValidator from "../utils/loginValidator.js";
+import emailCheckValidator from "../utils/emailCheckValidator.js";
+
+const emailCheck = async (req, res) => {
+  let response = null;
+  try {
+    const request = await emailCheckValidator.validateAsync(req.body);
+    const users = await User.findOne({ email: request.email });
+    if (users) {
+      response = new Response.Error(true, "Email already exist");
+      return res.status(httpStatus.BAD_REQUEST).json(response);
+    }
+
+    response = new Response.Success(false, "Email is available");
+    return res.status(httpStatus.OK).json(response);
+  } catch (error) {
+    response = new Response.Error(true, error.message);
+    return res.status(httpStatus.BAD_REQUEST).json(response);
+  }
+};
 
 const register = async (req, res) => {
   let response = null;
@@ -48,7 +67,7 @@ const login = async (req, res) => {
 
     const isValidPassword = await bcryptUtils.compare(
       request.password,
-      user.password,
+      user.password
     );
     if (!isValidPassword) {
       response = new Response.Error(true, signInErrorMessage);
@@ -60,6 +79,10 @@ const login = async (req, res) => {
       userId: user._id,
       name: user.name,
       email: user.email,
+      gender: user.gender,
+      height: user.height,
+      weight: user.weight,
+      goal: user.goal,
       token: createJwtToken,
     };
     response = new Response.Success(false, "success", loginResult);
@@ -70,4 +93,4 @@ const login = async (req, res) => {
   }
 };
 
-export { register, login };
+export { emailCheck, register, login };
