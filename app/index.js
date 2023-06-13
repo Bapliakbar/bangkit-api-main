@@ -1,5 +1,4 @@
 import express from "express";
-import connectDB from "./database/mongodb.js";
 
 const app = express();
 
@@ -11,35 +10,30 @@ import articleRouter from "./routes/articleRoute.js";
 import pageNotFound from "./utils/pageNotFound.js";
 
 // CONFIGURE DATABASE
-connectDB()
-  .then(() => {
-    // PORT AND PATH
-    const PORT = process.env.PORT || 8080;
-    const VERSION_API = "/api/v1";
-    const appendUrl = (url) => `${VERSION_API}${url}`;
+import connectDB from "./database/mongodb.js";
 
-    // MIDDLEWARE
-    app.use(express.json());
-    app.use(express.urlencoded({ extended: true }));
+// PORT AND PATH
+const PORT = process.env.PORT || 8080;
+const VERSION_API = "/api/v1";
+const appendUrl = (url) => `${VERSION_API}${url}`;
 
-    // ROUTER
-    app.use(appendUrl("/auth"), authRouter);
-    app.use(appendUrl("/article"), articleRouter);
+// MIDDLEWARE
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-    // ENDPOINT NOT CREATED
-    app.use("/", pageNotFound);
+// ROUTER
+app.use(appendUrl("/auth"), authRouter);
+app.use(appendUrl("/article"), articleRouter)
 
-    return PORT;
-  })
-  .then((port) => {
-    app.listen(port, function () {
-      console.log(
-        "Express server listening on port %d in %s mode",
-        this.address().port,
-        app.settings.env
-      );
-    });
-  })
-  .catch((error) => {
-    console.error("Failed to connect to the database:", error);
+// ENDPOINT NOT CREATED
+app.use("/", pageNotFound);
+
+connectDB().then(() => {
+  app.listen(PORT, function () {
+    console.log(
+      "Express server listening on port %d in %s mode",
+      this.address().port,
+      app.settings.env,
+    );
   });
+});
