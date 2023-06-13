@@ -12,7 +12,7 @@ steps:
     args:
       - "run"
       - "deploy"
-      - "SehatYuk"
+      - "sehat-yuk-api"
       - "--image"
       - "gcr.io/sehatyuk-api/sehat-yuk-api"
       - "--platform"
