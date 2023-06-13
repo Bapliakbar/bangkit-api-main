@@ -1,0 +1,26 @@
+steps:
+  - name: "gcr.io/cloud-builders/docker"
+    args:
+      - "build"
+      - "-t"
+      - "gcr.io/sehatyuk-api/SehatYuk"
+      - "."
+  - name: "gcr.io/cloud-builders/docker"
+    args: ["push", "gcr.io/sehatyuk-api/SehatYuk"]
+  - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
+    entrypoint: "gcloud"
+    args:
+      - "run"
+      - "deploy"
+      - "SehatYuk"
+      - "--image"
+      - "gcr.io/sehatyuk-api/SehatYuk"
+      - "--platform"
+      - "managed"
+      - "--region"
+      - "asia-southeast2"
+      - "--project"
+      - "sehatyuk-api"
+      - "--allow-unauthenticated"  # Added line to allow unauthenticated access
+options:
+  logging: CLOUD_LOGGING_ONLY
