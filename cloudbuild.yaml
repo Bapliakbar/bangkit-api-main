@@ -3,10 +3,10 @@ steps:
     args:
       - "build"
       - "-t"
-      - "gcr.io/sehatyuk-api/SehatYuk"
+      - "gcr.io/sehatyuk-api/sehat-yuk-api"
       - "."
   - name: "gcr.io/cloud-builders/docker"
-    args: ["push", "gcr.io/sehatyuk-api/SehatYuk"]
+    args: ["push", "gcr.io/sehatyuk-api/sehat-yuk-api"]
   - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
     entrypoint: "gcloud"
     args:
@@ -14,7 +14,7 @@ steps:
       - "deploy"
       - "SehatYuk"
       - "--image"
-      - "gcr.io/sehatyuk-api/SehatYuk"
+      - "gcr.io/sehatyuk-api/sehat-yuk-api"
       - "--platform"
       - "managed"
       - "--region"
