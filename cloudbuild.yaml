@@ -10,13 +10,17 @@ steps:
   - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
     entrypoint: "gcloud"
     args:
-      - "beta"
       - "run"
-      - "services"
-      - "add-iam-policy-binding"
+      - "deploy"
       - "sehat-yuk-api"
-      - "--region=asia-southeast2"
-      - "--member=allUsers"
-      - "--role=roles/run.invoker"
+      - "--image"
+      - "gcr.io/sehatyuk-api/sehat-yuk-api"
+      - "--platform"
+      - "managed"
+      - "--region"
+      - "asia-southeast2"
+      - "--project"
+      - "sehatyuk-api"
+      - "--allow-unauthenticated"  # Added line to allow unauthenticated access
 options:
   logging: CLOUD_LOGGING_ONLY
