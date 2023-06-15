@@ -6,7 +6,7 @@ const article = new mongoose.Schema({
     required: true,
   },
   description: {
-    type: String,
+    type: Object,
     maxlength: 5000,
   },
   urlToImage: {
