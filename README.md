@@ -1,8 +1,7 @@
 # Documentation
 
 ## Endpoint
-https://pepek.cyclic.app/api/v1
-
+https://sehat-yuk-api-aoorserjmq-et.a.run.app
 ## Register
 
 - URL 
